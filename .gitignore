@@ -63,3 +63,5 @@ dist
 .idea
 .idea/*.xml
 
+#
+.tmp

@@ -1,11 +1,30 @@
 var gulp = require('gulp'),
+    browserify = require('browserify'),
     sass = require('gulp-sass'),
     sassLint = require('gulp-sass-lint'),
+    ts = require('gulp-typescript'),
+    typescript = require('typescript'),
+    source = require('vinyl-source-stream'),
     connect = require('gulp-connect');
+
+var tsProject = ts.createProject('src/tsconfig.json', {typescript: typescript});
 
 gulp.task('html', function() {
   gulp.src('src/**/*.html')
       .pipe(gulp.dest('dist'));
+});
+
+gulp.task('compile', function () {
+    var result = gulp.src('src/**/*{ts,tsx}')
+        .pipe(tsProject());
+    return result.js.pipe(gulp.dest('.tmp'));
+});
+
+gulp.task('bundle', ['html','compile'], function () {
+    var b = browserify('.tmp/bootstrap.js');
+    return b.bundle()
+        .pipe(source('bundle.js'))
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('sass', function() {
