@@ -5,4 +5,4 @@ COPY . .
 
 RUN yarn install --force
 
-EXPOSE 9999
+EXPOSE 8080
