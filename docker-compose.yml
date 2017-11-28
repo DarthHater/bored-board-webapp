@@ -1,0 +1,13 @@
+version: '3.1'
+services:
+  web:
+    build: .
+    image: darthhater/bored-board-webapp:latest
+    ports:
+      - '9999:9999'
+    command: gulp
+  # backend:
+  #   image: darthhater/bored-board-service:latest
+  #   container_name: backend
+  #   ports:
+  #     - '8000:8000'
