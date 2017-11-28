@@ -4,8 +4,8 @@ services:
     build: .
     image: darthhater/bored-board-webapp:latest
     ports:
-      - '9999:9999'
-    command: gulp
+      - '8080:8080'
+    command: yarn start
   # backend:
   #   image: darthhater/bored-board-service:latest
   #   container_name: backend
