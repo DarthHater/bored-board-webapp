@@ -5,7 +5,6 @@ services:
     image: darthhater/bored-board-webapp:latest
     ports:
       - '9999:9999'
-    command: gulp
   # backend:
   #   image: darthhater/bored-board-service:latest
   #   container_name: backend
