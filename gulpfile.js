@@ -61,3 +61,7 @@ gulp.task('connect', function() {
 gulp.task('default', ['sass', 'html', 'favicon', 'connect', 'watch'], function () {
   console.log('Building the project ...');
 });
+
+gulp.task('build', ['sass', 'html', 'compile'], function () {
+  console.log('Building the project ...');
+});
