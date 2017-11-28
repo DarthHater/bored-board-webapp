@@ -13,18 +13,29 @@ It's written in Typescript and shouts to the supporting team:
 * Yarn
 * React
 * Docker
-* Gulp
 * Sass
 
 ## Local Dev Sans Docker (EXPERT MODE)
 
-* Install node (something new would be good)
-* Install yarn
-* Install gulp `yarn global add gulp`
-* Run `yarn install` from root
-* Run `gulp`
+First download all the dependencies by running:
 
-If everything is hunky dorky, you now have an environment at http://localhost:9999 ready for work
+```bash
+$ yarn
+```
+
+then to develop locally run:
+
+```bash
+$ yarn start
+```
+
+If everything is hunky dorky, you now have an environment at http://localhost:8080 ready for work with hot-reloading enabled.
+
+For a production build all you have to run is
+
+```bash
+$ yarn build
+```
 
 ## Docker Docker Docker (Moby wasn't in Flipper)
 

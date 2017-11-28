@@ -5,6 +5,4 @@ COPY . .
 
 RUN yarn install --force
 
-RUN yarn global add gulp
-
 EXPOSE 9999
