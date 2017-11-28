@@ -42,7 +42,7 @@ $ yarn build
 * Ensure you have Docker installed
 * `docker-compose up` from root
 
-Everything should come up, you should have an environment at http://localhost:9999
+Everything should come up, you should have an environment at http://localhost:8080
 
 ## Can I contribute?
 
