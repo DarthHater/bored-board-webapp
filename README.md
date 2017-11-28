@@ -2,6 +2,8 @@
 
 Here we go again
 
+[![Build Status](https://travis-ci.org/DarthHater/bored-board-webapp.svg?branch=master)](https://travis-ci.org/DarthHater/bored-board-webapp)
+
 ## Was Ist Das?
 
 This is the start of a frontend app for the new Bored Board to use
