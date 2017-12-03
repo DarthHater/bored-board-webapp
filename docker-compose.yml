@@ -7,7 +7,14 @@ services:
       - '8080:8080'
     command: yarn start
   backend:
-    image: darthhater/bored-board-service:latest
+    image: darthhater/bored-board-service:postgres
     container_name: backend
     ports:
       - '8000:8000'
+  database:
+    image: postgres:latest
+    container_name: database
+    volumes:
+      - ~/.go/src/github.com/darthhater/bored-board-service/.sql:/docker-entrypoint-initdb.d/
+    ports:
+      - '5432:5432'
