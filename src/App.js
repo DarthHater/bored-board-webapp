@@ -45,11 +45,7 @@ class App extends Component {
 
                         <Route
                             path="/thread/:id"
-                            render={({match}) => (
-                                <ThreadPost
-                                    {...this.state.threads.find(thread => thread.id === parseInt(match.params.id))}
-                                />
-                            )}
+                            component={ThreadPost}
                         />
 
                         <Route

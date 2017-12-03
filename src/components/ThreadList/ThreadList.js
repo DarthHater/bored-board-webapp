@@ -31,6 +31,7 @@ class ThreadList extends Component {
                                     <Link to={`/user/${thread.UserId}`}>
                                         
                                     </Link>
+                                    on {thread.PostedAt}
                                 </p>
                             </li>
                         )
