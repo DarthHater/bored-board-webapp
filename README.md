@@ -44,6 +44,8 @@ $ yarn build
 
 Everything should come up, you should have an environment at http://localhost:8080
 
+NOTE: this environment contains the backend, as well as a Postgres DB. As such, ensure the volumes command in docker-compose.yml for the sql init scripts is pointing to a valid location (you will likely want to setup the bored-board-service app in a valid golang path).
+
 ## Can I contribute?
 
 Yes, please. File an issue to let us know what you are working on, and then submit a PR that associates with your issue.
