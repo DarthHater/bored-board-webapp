@@ -12,18 +12,6 @@ class App extends Component {
         super(props);
 
         this.state = {
-            threads: [
-                {
-                    id: 123,
-                    title: 'thread title wow cool wtf',
-                    content:
-                        'Aenean lacinia bibendum nulla sed consectetur. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Donec id elit non mi porta gravida at eget metus. Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                    user: {
-                        id: 457,
-                        name: 'CoolGuy420'
-                    }
-                }
-            ],
             users: [
                 {
                     id: 457,
@@ -57,11 +45,7 @@ class App extends Component {
 
                         <Route
                             path="/thread/:id"
-                            render={({match}) => (
-                                <ThreadPost
-                                    {...this.state.threads.find(thread => thread.id === parseInt(match.params.id))}
-                                />
-                            )}
+                            component={ThreadPost}
                         />
 
                         <Route

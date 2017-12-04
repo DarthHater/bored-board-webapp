@@ -2,23 +2,36 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 
 class ThreadList extends Component {
+
+    constructor() {
+        super();
+        this.state = { threads: [] };
+    }
+
+    componentDidMount() {
+        fetch(`http://localhost:8000/threads`)
+            .then(result => result.json())
+            .then(threads => this.setState({threads}));
+    }
+
     render() {
         return (
             <div className='container'>
                 <ul>
-                    {this.props.threads.map(thread => {
+                    {this.state.threads.map(thread => {
                         return (
-                            <li key={thread.id}>
+                            <li key={thread.Id}>
                                 <h3>
-                                    <Link to={`/thread/${thread.id}`}>
-                                        {thread.title}
+                                    <Link to={`/thread/${thread.Id}`}>
+                                        {thread.Title}
                                     </Link>
                                 </h3>
 
                                 <p>
-                                    <Link to={`/user/${thread.user.id}`}>
-                                        {thread.user.name}
+                                    <Link to={`/user/${thread.UserId}`}>
+                                        
                                     </Link>
+                                    on {thread.PostedAt}
                                 </p>
                             </li>
                         )
