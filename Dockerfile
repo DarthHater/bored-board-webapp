@@ -5,4 +5,6 @@ COPY . .
 
 RUN yarn install --force
 
+CMD yarn start 
+
 EXPOSE 8080
