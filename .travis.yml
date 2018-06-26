@@ -16,9 +16,9 @@ jobs:
       script: 
       - curl https://cli-assets.heroku.com/install.sh | sh
       - docker login -u _ -p "$HEROKU_TOKEN" registry.heroku.com
-      - docker build -t registry.heroku.com/vivalavinyl/web .
-      - docker push registry.heroku.com/vivalavinyl/web 
-      - heroku container:release web -a vivalavinyl
+      - docker build -t registry.heroku.com/vivalavinyl-webapp/web .
+      - docker push registry.heroku.com/vivalavinyl-webapp/web 
+      - heroku container:release web -a vivalavinyl-webapp
 
 stages:
   - build
