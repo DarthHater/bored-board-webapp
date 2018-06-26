@@ -29,6 +29,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --open --config ./webpack/dev.js --port $PORT",
+    "production": "webpack-dev-server --open --config ./webpack/prod.js --port $PORT",
     "build": "webpack --config ./webpack/prod.js"
   }
 }
