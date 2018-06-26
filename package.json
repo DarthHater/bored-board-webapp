@@ -28,7 +28,7 @@
     "react-websocket": "^2.0.0"
   },
   "scripts": {
-    "start": "webpack-dev-server --open --config ./webpack/dev.js",
+    "start": "webpack-dev-server --open --config ./webpack/dev.js --port $PORT",
     "build": "webpack --config ./webpack/prod.js"
   }
 }
