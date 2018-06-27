@@ -5,12 +5,12 @@ COPY . .
 
 RUN yarn install --force
 RUN yarn global add webpack
-RUN yarn add webpack-cli
+RUN yarn global add webpack-cli
 
 RUN webpack --config ./webpack/prod.js
 
 FROM nginx:latest 
-COPY --from=build /code/ /www/vivalavinyl/
+COPY --from=build /code/dist/ /www/vivalavinyl/
 
 COPY default.conf.template /etc/nginx/conf.d/default.conf.template
 COPY nginx.conf /etc/nginx/nginx.conf
