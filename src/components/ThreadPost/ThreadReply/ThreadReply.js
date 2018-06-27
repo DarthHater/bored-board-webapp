@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import config from 'react-global-configuration';
 
 class ThreadReply extends Component {
 
@@ -16,7 +17,8 @@ class ThreadReply extends Component {
     }
 
     handleSubmit(event) {
-        fetch('http://localhost:8000/post', {
+        let baseUrl = config.get('API_ROOT');
+        fetch(`${baseUrl}/post`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

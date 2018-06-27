@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import config from 'react-global-configuration';
 
 class ThreadList extends Component {
 
@@ -9,7 +10,8 @@ class ThreadList extends Component {
     }
 
     componentDidMount() {
-        fetch(`http://localhost:8000/threads`)
+        let baseUrl = config.get('API_ROOT');
+        fetch(`${baseUrl}/threads`)
             .then(result => result.json())
             .then(threads => this.setState({threads}));
     }
