@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
-import {HashRouter as Router, Link, Route} from 'react-router-dom';
+import { HashRouter as Router, Link, Route, Redirect } from 'react-router-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import './App.scss';
 
 import ThreadList from './components/ThreadList/ThreadList';
 import ThreadPost from './components/ThreadPost/ThreadPost';
 import UserProfile from './components/UserProfile/UserProfile';
+import NavigationBar from './components/NavigationBar/NavigationBar';
+import Login from './components/Login/Login';
+import * as auth from './auth/authentication';
+
 
 class App extends Component {
     constructor(props) {
@@ -24,41 +29,48 @@ class App extends Component {
 
     render() {
         return (
-            <Router>
-                <div>
-                    <header>
-                        <nav>
-                            <ul>
-                                <li>
-                                    <strong>VLV:</strong>
-                                </li>
+            <MuiThemeProvider>
+                <Router>
+                    <div>
+                        <header>
+                            <NavigationBar />
+                        </header>
 
-                                <li>
-                                    <Link to="/">Threads</Link>
-                                </li>
-                            </ul>
-                        </nav>
-                    </header>
+                        <main>
+                            <Route 
+                                exact={true} 
+                                path="/"
+                                render={() => (
+                                    auth.isLoggedIn() ? (
+                                        <ThreadList />
+                                    ) : (
+                                        <Redirect to="/login" />
+                                    )
+                                )}
+                            />
 
-                    <main>
-                        <Route exact={true} path="/" render={() => <ThreadList threads={this.state.threads} />} />
+                            <Route
+                                path="/login"
+                                component={Login}
+                            />
 
-                        <Route
-                            path="/thread/:id"
-                            component={ThreadPost}
-                        />
+                            <Route
+                                path="/thread/:id"
+                                component={ThreadPost}
+                            />
 
-                        <Route
-                            path="/user/:id"
-                            render={({match}) => (
-                                <UserProfile
-                                    {...this.state.users.find(user => user.id === parseInt(match.params.id))}
-                                />
-                            )}
-                        />
-                    </main>
-                </div>
-            </Router>
+                            <Route
+                                path="/user/:id"
+                                render={({match}) => (
+                                    <UserProfile
+                                        {...this.state.users.find(user => user.id === parseInt(match.params.id))}
+                                    />
+                                )}
+                            />
+                        </main>
+                    </div>
+                </Router>
+            </MuiThemeProvider>
         );
     }
 }

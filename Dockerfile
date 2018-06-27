@@ -3,6 +3,8 @@ FROM node:8.9 AS build
 WORKDIR /code
 COPY . .
 
+RUN rm -rf node_modules/
+
 RUN yarn install --force
 RUN yarn global add webpack@^3.8.1
 

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import Timestamp from 'react-timestamp';
+import ThreadService from '../../services/ThreadService';
 import config from 'react-global-configuration';
 
 class ThreadList extends Component {
@@ -33,7 +35,7 @@ class ThreadList extends Component {
                                     <Link to={`/user/${thread.UserId}`}>
                                         
                                     </Link>
-                                    on {thread.PostedAt}
+                                    on <Timestamp time={thread.PostedAt} format="full" />
                                 </p>
                             </li>
                         )

@@ -1,5 +1,18 @@
 import React, {Component} from 'react';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import {orange500, blue500} from 'material-ui/styles/colors';
+import ThreadService from '../../../services/ThreadService';
 import config from 'react-global-configuration';
+
+const styles = {
+    floatingLabelStyle: {
+      color: orange500,
+    },
+    floatingLabelFocusStyle: {
+      color: blue500,
+    },
+  };
 
 class ThreadReply extends Component {
 
@@ -38,8 +51,20 @@ class ThreadReply extends Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                <textarea value={this.state.value} onChange={this.handleChange} />
-                <input type="submit" value="say it!" />
+                <TextField 
+                    floatingLabelText="Type something"
+                    floatingLabelStyle={styles.floatingLabelStyle}
+                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                    value={this.state.value} 
+                    onChange={this.handleChange} 
+                    multiLine={true} 
+                    rows="5" 
+                />
+                <RaisedButton 
+                    label="say it!" 
+                    primary={true} 
+                    type="submit" 
+                />
             </form>
         );
     }

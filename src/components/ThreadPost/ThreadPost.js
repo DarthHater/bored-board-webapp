@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import Timestamp from 'react-timestamp';
 import WebSocket from 'react-websocket';
 import ThreadReply from './ThreadReply/ThreadReply';
+import ThreadService from '../../services/ThreadService';
 import config from 'react-global-configuration';
 
 class ThreadPost extends Component {
@@ -45,7 +47,7 @@ class ThreadPost extends Component {
                                     <Link to={`/user/${post.UserId}`}>
                                         
                                     </Link>
-                                    on {post.PostedAt}
+                                    on <Timestamp time={post.PostedAt} format="full" />
                                 </p>
                                 <p>
                                     {post.Body}
@@ -60,7 +62,7 @@ class ThreadPost extends Component {
                 >
                 </ThreadReply>
 
-                <WebSocket url='ws://localhost:8000/ws'
+                <WebSocket url='ws://localhost:8000/ws' 
                     onMessage={this.handleSocket.bind(this)} />
             </div>
         );
