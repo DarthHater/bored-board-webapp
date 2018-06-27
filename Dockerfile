@@ -1,4 +1,4 @@
-FROM node:8.9
+FROM node:8.9 AS build
 
 WORKDIR /code
 COPY . .
@@ -7,6 +7,5 @@ RUN yarn install --force
 
 RUN webpack --config ./webpack/prod.js
 
-CMD yarn production 
-
-EXPOSE 8080
+FROM nginx 
+COPY --from=build /code/**/* /usr/share/nginx/html
