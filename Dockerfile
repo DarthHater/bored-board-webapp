@@ -4,6 +4,7 @@ WORKDIR /code
 COPY . .
 
 RUN yarn install --force
+RUN yarn global add webpack
 
 RUN webpack --config ./webpack/prod.js
 
