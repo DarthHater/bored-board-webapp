@@ -1,7 +1,8 @@
 server {
-  root /www/vivalavinyl;
   listen $PORT default_server;
+  
   location / {
+      root /www/vivalavinyl;
       index index.html;
   }
 }

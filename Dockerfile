@@ -10,7 +10,7 @@ RUN yarn add webpack-cli
 RUN webpack --config ./webpack/prod.js
 
 FROM nginx:latest 
-COPY --from=build /code/**/* /www/vivalavinyl/
+COPY --from=build /code/ /www/vivalavinyl/
 
 COPY default.conf.template /etc/nginx/conf.d/default.conf.template
 COPY nginx.conf /etc/nginx/nginx.conf
