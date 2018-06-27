@@ -5,8 +5,9 @@ COPY . .
 
 RUN yarn install --force
 RUN yarn global add webpack
+RUN yarn add webpack-cli
 
 RUN webpack --config ./webpack/prod.js
 
-FROM nginx 
-COPY --from=build /code/**/* /usr/share/nginx/html
+FROM nginx:latest 
+COPY --from=build /code/**/* /usr/share/nginx/html/
