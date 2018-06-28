@@ -30,18 +30,10 @@ class ThreadReply extends Component {
     }
 
     handleSubmit(event) {
-        let baseUrl = config.get('API_ROOT');
-        fetch(`${baseUrl}/post`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                ThreadId: this.props.threadId,
-                UserId: this.props.userId,
-                Body: this.state.value,
-            })});
+        ThreadService.postPost(this.props.threadId, this.props.userId, this.state.value)
+            .catch(error => {
+                throw(error);
+            });
 
         this.setState({value: ''});
 
