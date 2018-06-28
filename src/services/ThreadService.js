@@ -1,11 +1,18 @@
+import config from 'react-global-configuration';
+
 class ThreadService {
+    // Should likely do this in a global config class
+    getBaseUrl() {
+        return config.get('API_ROOT');
+    }
+
     requestHeaders() {
         return {'AUTHORIZATION': `Bearer ${sessionStorage.jwt}`}
     }
 
     getAllThreads() {
         const headers = this.requestHeaders();
-        const request = new Request(`http://localhost:8000/threads`, {
+        const request = new Request(`${getBaseUrl()}/threads`, {
             method: 'GET',
             headers: headers
         });
@@ -21,7 +28,7 @@ class ThreadService {
 
     getThread(threadId) {
         const headers = this.requestHeaders();
-        const request = new Request(`http://localhost:8000/thread/${threadId}`, {
+        const request = new Request(`${getBaseUrl()}/thread/${threadId}`, {
             method: 'GET',
             headers: headers
         });
@@ -37,7 +44,7 @@ class ThreadService {
 
     getPosts(threadId) {
         const headers = this.requestHeaders();
-        const request = new Request(`http://localhost:8000/posts/${threadId}`, {
+        const request = new Request(`${getBaseUrl()}/posts/${threadId}`, {
             method: 'GET',
             headers: headers
         });
@@ -53,7 +60,7 @@ class ThreadService {
 
     postPost(threadId, userId, body) {
         const headers = this.requestHeaders();
-        const request = new Request('http://localhost:8000/post', {
+        const request = new Request(`${getBaseUrl()}/post`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
