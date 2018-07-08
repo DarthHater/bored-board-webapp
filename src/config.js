@@ -7,10 +7,10 @@ let wsHost;
 
 if (hostname == 'vivalavinyl-webapp.herokuapp.com') {
     backendHost = 'https://vivalavinyl-service.herokuapp.com';
-    wsHost = 'vivalavinyl-service.herokuapp.com';
+    wsHost = 'wss://vivalavinyl-service.herokuapp.com/ws';
 } else {
     backendHost = 'http://localhost:8000';
-    wsHost = 'localhost:8000';
+    wsHost = 'ws://localhost:8000/ws';
 }
 
 config.set({ API_ROOT: backendHost, WS_ROOT: wsHost });

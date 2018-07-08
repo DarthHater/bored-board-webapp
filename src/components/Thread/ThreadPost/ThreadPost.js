@@ -45,7 +45,7 @@ class ThreadPost extends Component {
                     })}
                 </ul>
 
-                <WebSocket url={'ws://' + this.state.baseUrl + '/ws'}
+                <WebSocket url={this.state.baseUrl}
                     onMessage={this.handleSocket.bind(this)} />
             </div>
         );
