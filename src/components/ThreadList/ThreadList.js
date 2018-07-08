@@ -1,49 +1,55 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Timestamp from 'react-timestamp';
-import ThreadService from '../../services/ThreadService';
+import { connect } from 'react-redux';
+import { threadActions } from '../../actions'; 
 
 class ThreadList extends Component {
 
-    constructor() {
-        super();
-        this.state = { threads: [] };
+    constructor(props) {
+        super(props);
     }
 
     componentDidMount() {
-        ThreadService.getAllThreads()
-            .then(response => this.setState({threads: response}))
-            .catch(error => {
-                throw(error);
-            });
+        this.props.dispatch(threadActions.loadThreads());
     }
 
     render() {
         return (
             <div className='container'>
-                <ul>
-                    {this.state.threads.map(thread => {
+                    {this.props.threads.map(thread => {
                         return (
-                            <li key={thread.Id}>
-                                <h3>
-                                    <Link to={`/thread/${thread.Id}`}>
-                                        {thread.Title}
-                                    </Link>
-                                </h3>
-
-                                <p>
-                                    <Link to={`/user/${thread.UserId}`}>
-                                        
-                                    </Link>
-                                    on <Timestamp time={thread.PostedAt} format="full" />
-                                </p>
-                            </li>
+                            <Card key={thread.Id}>
+                                <CardContent>
+                                    <Typography variant="headline" component="h3">
+                                        <Link to={{ pathname: `/thread/${thread.Id}`}}>
+                                            { thread.Title }
+                                        </Link>
+                                    </Typography>
+                                    <Typography component="p">
+                                        by: <Link to={`/user/${thread.UserId}`}>
+                                        {thread.UserName}
+                                        </Link> on <Timestamp time={thread.PostedAt} format="full" />
+                                    </Typography>
+                                </CardContent>
+                            </Card>
                         )
                     })}
-                </ul>
             </div>
         );
     }
 }
 
-export default ThreadList;
+function mapStateToProps(state, ownProps) {
+    return {
+        threads: state.threads,
+        thread: state.thread,
+        posts: state.posts
+    };
+}
+
+export default connect(mapStateToProps)(ThreadList);

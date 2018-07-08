@@ -1,31 +1,40 @@
 import React, {Component} from 'react';
-import {Link, Redirect} from 'react-router-dom';
-import AppBar from 'material-ui/AppBar';
-import FlatButton from 'material-ui/FlatButton';
-import * as auth from '../../auth/authentication';
+import {Link} from 'react-router-dom';
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import {getUsername, isLoggedIn} from '../../auth/authentication';
+import {connect} from 'react-redux';
+import {userActions} from '../../actions/index';
 
 class NavigationBar extends Component {
-
-    constructor() {
-        super();
-        this.logOut = this.logOut.bind(this);
-    }
-
-    logOut(event) {
-        auth.logOut();
-    }
+    logOut = () => {
+        this.props.dispatch(userActions.logout());
+    };
 
     render() {
         return (
-            <AppBar
-                title="VLV"
-                iconElementRight={auth.isLoggedIn() ? 
-                    <FlatButton label={"Logout " + auth.getUsername()} onClick={this.logOut}/>
-                    : <FlatButton label="Login" containerElement={<Link to="/login" />}/>
-                }
-            />
+            <AppBar position="static">
+                <Toolbar>
+                    <Typography variant="title" color="inherit">
+                        VLV
+                    </Typography>
+                    { isLoggedIn() ? (
+                        <Button label={'Logout ' + getUsername()} onClick={this.logOut} />
+                    ) : (
+                        <Button label="Login" />
+                    )}
+                </Toolbar>
+            </AppBar>
         );
     }
 }
 
-export default NavigationBar;
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    };
+}
+
+export default connect(mapStateToProps)(NavigationBar);

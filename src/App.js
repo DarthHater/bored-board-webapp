@@ -1,72 +1,42 @@
 import React, {Component} from 'react';
-import { HashRouter as Router, Link, Route, Redirect } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {HashRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import './App.scss';
-
 import ThreadList from './components/ThreadList/ThreadList';
-import ThreadPost from './components/ThreadPost/ThreadPost';
-import UserProfile from './components/UserProfile/UserProfile';
+import Thread from './components/Thread/Thread';
 import NavigationBar from './components/NavigationBar/NavigationBar';
 import Login from './components/Login/Login';
-import * as auth from './auth/authentication';
-
+import {isLoggedIn} from './auth/authentication';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            users: [
-                {
-                    id: 457,
-                    name: 'CoolGuy420',
-                    bio: 'Im so dope i am the best'
-                }
-            ]
-        };
-    }
-
     render() {
         return (
             <MuiThemeProvider>
                 <Router>
                     <div>
-                        <header>
-                            <NavigationBar />
-                        </header>
+                        <NavigationBar />
 
                         <main>
-                            <Route 
-                                exact={true} 
-                                path="/"
-                                render={() => (
-                                    auth.isLoggedIn() ? (
-                                        <ThreadList />
-                                    ) : (
-                                        <Redirect to="/login" />
-                                    )
-                                )}
-                            />
+                            <Switch>
+                                <Route
+                                    exact={true}
+                                    path="/"
+                                    render={() =>
+                                        isLoggedIn() ? <ThreadList threads={this.props.threads} /> : <Login />
+                                    }
+                                />
 
-                            <Route
-                                path="/login"
-                                component={Login}
-                            />
+                                <Route
+                                    path="/login"
+                                    render={() => (isLoggedIn() ? <Redirect to={'/'} /> : <Login />)}
+                                />
 
-                            <Route
-                                path="/thread/:id"
-                                component={ThreadPost}
-                            />
-
-                            <Route
-                                path="/user/:id"
-                                render={({match}) => (
-                                    <UserProfile
-                                        {...this.state.users.find(user => user.id === parseInt(match.params.id))}
-                                    />
-                                )}
-                            />
+                                <Route
+                                    path="/thread/:id"
+                                    render={props => (isLoggedIn() ? <Thread {...props} /> : <Login />)}
+                                />
+                            </Switch>
                         </main>
                     </div>
                 </Router>
@@ -75,4 +45,10 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapStateToProps = function(state) {
+    return {
+        threads: state.threads
+    };
+};
+
+export default connect(mapStateToProps)(App);

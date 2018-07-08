@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import {orange500, blue500} from 'material-ui/styles/colors';
-import ThreadService from '../../../services/ThreadService';
-import config from 'react-global-configuration';
+import { connect } from 'react-redux';
+import { threadActions } from '../../../actions/index';
 
 const styles = {
     floatingLabelStyle: {
@@ -30,10 +30,7 @@ class ThreadReply extends Component {
     }
 
     handleSubmit(event) {
-        ThreadService.postPost(this.props.threadId, this.props.userId, this.state.value)
-            .catch(error => {
-                throw(error);
-            });
+        this.props.dispatch(threadActions.addPost(this.props.threadId, this.props.userId, this.state.value));
 
         this.setState({value: ''});
 
@@ -50,7 +47,7 @@ class ThreadReply extends Component {
                     value={this.state.value} 
                     onChange={this.handleChange} 
                     multiLine={true} 
-                    rows="5" 
+                    rows={5} 
                 />
                 <RaisedButton 
                     label="say it!" 
@@ -62,4 +59,10 @@ class ThreadReply extends Component {
     }
 }
 
-export default ThreadReply;
+function mapStateToProps(state, ownProps) {
+    return {
+        post: state.post
+    };
+}
+
+export default connect(mapStateToProps)(ThreadReply);

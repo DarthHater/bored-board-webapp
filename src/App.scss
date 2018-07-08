@@ -24,3 +24,38 @@ body {
     transition: opacity 0.5s;
     opacity: 1;
 }
+
+ul {
+    list-style-type: none;
+}
+
+.threadListUl h3, .threadListUl p { display: inline; }
+
+.threadListUl li {
+    padding: 2px;
+}
+
+.postsListUl {
+    padding: 10px;
+}
+
+.postsListUl li {
+    margin: 2px;
+}
+
+.postsListUl p {
+    margin: 5px;
+}
+
+.loginFormDiv {
+    padding: 10px;
+    text-align: center;
+}
+
+.loginFormDiv h3, h4, p {
+    padding: 10px;
+}
+
+.backToIt {
+    padding: 10px;
+}

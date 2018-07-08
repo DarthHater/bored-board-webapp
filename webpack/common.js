@@ -3,6 +3,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+    mode: 'development',
     entry: {
         app: './src/index.js'
     },
@@ -18,7 +19,8 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['es2015', 'react']
+                        presets: ['env', 'react'],
+                        plugins: ['transform-class-properties']
                     }
                 }
             },
@@ -48,5 +50,10 @@ module.exports = {
             lang: 'en-US',
             title: 'VLV'
         })
-    ]
+    ],
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        }
+    }
 };

@@ -1,23 +1,39 @@
+import * as auth from '../auth/authentication';
 import config from 'react-global-configuration';
+import axios from 'axios';
 
-class AuthService {
-    login(data) {
-        let baseUrl = config.get('API_ROOT');
-        return fetch(`${baseUrl}/login`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: data
-            })
-            .then(response => {
-                return response.json();
-            })
-            .catch(error => {
-                return error;
-            });
-    }
+export const authService = {
+    login,
+    logout
+};
+
+function login(data) {
+    let baseUrl = config.get('API_ROOT');
+
+    return axios.post(`${baseUrl}/login`, data, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }  
+        })
+        .then(function(response) {
+            if (!response.ok) {
+                if (response.status === 401) {
+                    // auto logout if 401 response returned from api
+                    logout();
+                    location.reload(true);
+                } else {
+                    if (response.data.token) {
+                        sessionStorage.setItem('jwt', response.data.token);
+                    }
+                }
+            }
+        })
+        .catch(error => {
+            return error;
+        });
 }
 
-export default new AuthService();
+function logout() {
+    auth.logOut();
+}

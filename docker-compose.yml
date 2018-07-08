@@ -17,7 +17,7 @@ services:
     image: postgres:latest
     container_name: database
     volumes:
-      - ~/go/src/github.com/darthhater/bored-board-service/.sql:/docker-entrypoint-initdb.d/
+      - ~/.go/src/github.com/darthhater/bored-board-service/.sql:/docker-entrypoint-initdb.d/
     ports:
       - '5432:5432'
   redis_db:
