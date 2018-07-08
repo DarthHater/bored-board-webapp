@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import {orange500, blue500} from 'material-ui/styles/colors';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import orange from '@material-ui/core/colors/orange';
+import blue from '@material-ui/core/colors/blue';
 import { connect } from 'react-redux';
 import { threadActions } from '../../../actions/index';
 
 const styles = {
     floatingLabelStyle: {
-      color: orange500,
+      color: orange[500],
     },
     floatingLabelFocusStyle: {
-      color: blue500,
+      color: blue[500],
     },
   };
 
@@ -49,7 +50,7 @@ class ThreadReply extends Component {
                     multiLine={true} 
                     rows={5} 
                 />
-                <RaisedButton 
+                <Button 
                     label="say it!" 
                     primary={true} 
                     type="submit" 

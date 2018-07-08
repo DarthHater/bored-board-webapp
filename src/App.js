@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {HashRouter as Router, Route, Redirect, Switch} from 'react-router-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
 import ThreadList from './components/ThreadList/ThreadList';
 import Thread from './components/Thread/Thread';
@@ -9,14 +10,15 @@ import NavigationBar from './components/NavigationBar/NavigationBar';
 import Login from './components/Login/Login';
 import {isLoggedIn} from './auth/authentication';
 
+const theme = createMuiTheme();
+
 class App extends Component {
     render() {
         return (
-            <MuiThemeProvider>
+            <MuiThemeProvider theme={theme}>
                 <Router>
                     <div>
                         <NavigationBar />
-
                         <main>
                             <Switch>
                                 <Route

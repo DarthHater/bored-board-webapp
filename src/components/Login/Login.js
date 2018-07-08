@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import {connect} from 'react-redux';
 import {userActions} from '../../actions';
 
@@ -63,7 +63,7 @@ class Login extends Component {
                         onChange={this.handlePasswordChange}
                     />
                     <br />
-                    <RaisedButton label="Login" primary={true} type="submit" />
+                    <Button label="Login" primary={true} type="submit" />
                 </form>
                 <h4>Don't have an account?</h4>
                 <p>

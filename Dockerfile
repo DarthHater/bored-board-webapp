@@ -6,7 +6,7 @@ COPY . .
 RUN rm -rf node_modules/
 
 RUN yarn install --force
-RUN yarn global add webpack@^3.8.1
+RUN yarn global add webpack@^4.15.1
 
 RUN webpack --config ./webpack/prod.js
 
