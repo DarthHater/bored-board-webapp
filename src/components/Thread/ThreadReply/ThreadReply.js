@@ -45,13 +45,11 @@ class ThreadReply extends Component {
                     id="multiline-static"
                     label="Type something"
                     multiline
-                    rows="4"
+                    rows="5"
                     defaultValue=""
                     margin="normal"
                     value={this.state.value} 
                     onChange={this.handleChange} 
-                    multiLine={true} 
-                    rows={5} 
                 />
                 <Button 
                     primary={true} 
