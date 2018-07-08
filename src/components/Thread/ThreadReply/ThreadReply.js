@@ -42,9 +42,12 @@ class ThreadReply extends Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <TextField 
-                    floatingLabelText="Type something"
-                    floatingLabelStyle={styles.floatingLabelStyle}
-                    floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+                    id="multiline-static"
+                    label="Type something"
+                    multiline
+                    rows="4"
+                    defaultValue=""
+                    margin="normal"
                     value={this.state.value} 
                     onChange={this.handleChange} 
                     multiLine={true} 
