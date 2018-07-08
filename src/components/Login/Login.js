@@ -1,9 +1,19 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {connect} from 'react-redux';
 import {userActions} from '../../actions';
+
+const styles = theme => ({
+    textField: {
+      marginLeft: theme.spacing.unit,
+      marginRight: theme.spacing.unit,
+      width: 200,
+    }
+  });
 
 class Login extends Component {
     constructor(props) {
@@ -43,23 +53,28 @@ class Login extends Component {
     };
 
     render() {
+        const { classes } = this.props;
         return (
-            <div className="loginFormDiv">
+            <div>
                 <h3>Welcome to VLV!</h3>
                 <p> Enter your credentials to login and start shit posting </p>
                 <form onSubmit={this.handleSubmit}>
                     <TextField 
-                        hintText="Enter your Username" 
-                        floatingLabelText="Username" 
-                        name="username" 
+                        id="username"
+                        label="Username"
+                        className={classes.textField}
+                        value={this.state.username}
+                        margin="normal"
                         onChange={this.handleEmailChange} 
                     />
                     <br />
                     <TextField
                         type="password"
-                        hintText="Enter your Password"
-                        floatingLabelText="Password"
-                        name="password"
+                        id="password"
+                        label="Password"
+                        className={classes.textField}
+                        value={this.state.password}
+                        margin="normal"
                         onChange={this.handlePasswordChange}
                     />
                     <br />
@@ -74,10 +89,14 @@ class Login extends Component {
     }
 }
 
+Login.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
 function mapStateToProps(state) {
     return {
         user: state.user
     };
 }
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(withStyles(styles)(Login));
