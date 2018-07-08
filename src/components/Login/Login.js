@@ -63,7 +63,7 @@ class Login extends Component {
                         onChange={this.handlePasswordChange}
                     />
                     <br />
-                    <Button label="Login" primary={true} type="submit" />
+                    <Button type="submit">Login</Button>
                 </form>
                 <h4>Don't have an account?</h4>
                 <p>

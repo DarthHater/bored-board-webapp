@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {withStyles} from "@material-ui/core/styles";
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -29,18 +31,23 @@ class NavigationBar extends Component {
         this.props.dispatch(userActions.logout());
     };
 
-    render(props) {
+    render() {
+        const { classes } = this.props;
         return (
-            <div style={styles.root}>
+            <div className={classes.root}>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton style={styles.menuButton} color="inherit" aria-label="Menu">
+                        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="title" color="inherit" style={styles.flex}>
+                        <Typography variant="title" color="inherit" className={classes.flex}>
                             VLV
                         </Typography>
-                        <Button label="Login"/>
+                        { isLoggedIn() ? (
+                            <Button onClick={this.logOut} color="inherit">Logout {getUsername()}</Button>
+                                ) : (
+                            <Button color="inherit">Login</Button>
+                        )}
                     </Toolbar>
                 </AppBar>
             </div>
@@ -48,10 +55,14 @@ class NavigationBar extends Component {
     }
 }
 
+NavigationBar.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
 function mapStateToProps(state) {
     return {
         user: state.user
     };
 }
 
-export default connect(mapStateToProps)(NavigationBar);
+export default connect(mapStateToProps)(withStyles(styles)(NavigationBar));

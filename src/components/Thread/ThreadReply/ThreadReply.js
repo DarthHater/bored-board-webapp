@@ -51,10 +51,9 @@ class ThreadReply extends Component {
                     rows={5} 
                 />
                 <Button 
-                    label="say it!" 
                     primary={true} 
                     type="submit" 
-                />
+                >say it!</Button>
             </form>
         );
     }
