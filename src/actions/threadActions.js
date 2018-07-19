@@ -6,7 +6,8 @@ export const threadActions = {
     loadThread,
     loadPosts,
     addPost,
-    recievePost
+    recievePost,
+    addThread
 };
 
 function loadThreads() {
@@ -53,6 +54,17 @@ function addPost(threadId, userId, post) {
     }
 }
 
+function addThread(thread) {
+    return function(dispatch) {
+        return ThreadService.postThread(thread)
+        .then(response => {
+            dispatch(addThreadSuccess(stubThread(response, thread)));
+        }).catch(error => {
+            throw(error);
+        });
+    }
+}
+
 function recievePost(post) {
     return function(dispatch) {
         dispatch(recievePostSuccess(post));
@@ -65,6 +77,16 @@ function stubPost(response, threadId, userId, post) {
         ThreadId: threadId,
         UserId: userId,
         Body: post,
+        PostedAt: new Date(Date.now()),
+        UserName: response.username
+    };
+}
+
+function stubThread(response, thread) {
+    return {
+        Id: response.id,
+        UserId: thread.Thread.UserId,
+        Title: thread.Thread.Title,
         PostedAt: new Date(Date.now()),
         UserName: response.username
     };
@@ -84,6 +106,10 @@ function loadPostsSuccess(posts) {
 
 function addPostSuccess(post) {
     return { type: threadConstants.ADD_POST, post };
+}
+
+function addThreadSuccess(thread) {
+    return { type: threadConstants.ADD_THREAD, thread };
 }
 
 function recievePostSuccess(post) {
