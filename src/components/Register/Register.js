@@ -89,8 +89,8 @@ class Register extends Component {
                         margin="normal"
                         value={this.state.emailaddress}
                         className={classes.textField}
-                        validators={['required']}
-                        errorMessages={['this field is required']}
+                        validators={['required', 'isEmail']}
+                        errorMessages={['this field is required', 'email is not valid']}
                     />
                     <br />
                     <TextValidator
