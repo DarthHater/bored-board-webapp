@@ -58,6 +58,7 @@ class Login extends Component {
         return (
             <div>
                 <h3>Welcome to VLV!</h3>
+                <img src="http://i.imgur.com/yTLWX.jpg" />
                 <p> Enter your credentials to login and start shit posting </p>
                 <ValidatorForm
                     ref="form"
