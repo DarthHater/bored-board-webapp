@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import {connect} from 'react-redux';
 import {userActions} from '../../actions';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 const styles = theme => ({
     textField: {
@@ -65,36 +66,46 @@ class Register extends Component {
             <div>
                 <h3>Welcome to VLV!</h3>
                 <p>Enter your details to register as a new user</p>
-                <form onSubmit={this.handleSubmit}>
-                    <TextField 
-                        id="username"
+                <ValidatorForm
+                    ref="form"
+                    onSubmit={this.handleSubmit}
+                    onError={errors => console.log(errors)}
+                >                    
+                    <TextValidator
                         label="Username"
-                        className={classes.textField}
+                        onChange={this.handleUserNameChange}
+                        name="username"
+                        margin="normal"
                         value={this.state.username}
-                        margin="normal"
-                        onChange={this.handleUserNameChange} 
-                    />
-                    <TextField 
-                        id="emailaddress"
-                        label="Email Address"
                         className={classes.textField}
-                        value={this.state.emailaddress}
-                        margin="normal"
-                        onChange={this.handleEmailChange} 
+                        validators={['required']}
+                        errorMessages={['this field is required']}
                     />
                     <br />
-                    <TextField
-                        type="password"
-                        id="password"
-                        label="Password"
-                        className={classes.textField}
-                        value={this.state.userpassword}
+                    <TextValidator
+                        label="Email Address"
+                        onChange={this.handleEmailChange}
+                        name="emailaddress"
                         margin="normal"
+                        value={this.state.emailaddress}
+                        className={classes.textField}
+                        validators={['required']}
+                        errorMessages={['this field is required']}
+                    />
+                    <br />
+                    <TextValidator
+                        label="Password"
                         onChange={this.handlePasswordChange}
+                        name="password"
+                        margin="normal"
+                        value={this.state.userpassword}
+                        className={classes.textField}
+                        validators={['required']}
+                        errorMessages={['this field is required']}
                     />
                     <br />
                     <Button type="submit">Register</Button>
-                </form>
+                </ValidatorForm>
                 <h4>Have an account already?</h4>
                 <p>
                     Go <Link to="/login">here</Link> to login.
