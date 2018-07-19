@@ -56,7 +56,7 @@ class Register extends Component {
     };
 
     handlePasswordChange = event => {
-        this.setState({password: event.target.value});
+        this.setState({userpassword: event.target.value});
     };
 
     render() {
