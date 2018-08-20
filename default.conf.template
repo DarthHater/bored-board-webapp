@@ -3,6 +3,13 @@ server {
   root /www/vivalavinyl;
   index index.html;
 
+  gzip on;
+  gzip_vary on;
+  gzip_min_length 10240;
+  gzip_proxied expired no-cache no-store private auth;
+  gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml;
+  gzip_disable "MSIE [1-6]\.";
+
   location ~* \.(?:manifest|appcache|html?|xml|json)$ {
     expires -1;
   }
