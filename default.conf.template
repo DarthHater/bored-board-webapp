@@ -1,8 +1,24 @@
 server {
   listen $PORT default_server;
-  
+  root /www/vivalavinyl;
+  index index.html;
+
+  location ~* \.(?:manifest|appcache|html?|xml|json)$ {
+    expires -1;
+  }
+
+  location ~* \.(?:css|js)$ {
+    try_files $uri =404;
+    expires 1y;
+    access_log off;
+    add_header Cache-Control "public";
+  }
+
+  location ~ ^.+\..+$ {
+    try_files $uri =404;
+  }
+
   location / {
-      root /www/vivalavinyl;
-      index index.html;
+    try_files $uri $uri/ /index.html;
   }
 }
