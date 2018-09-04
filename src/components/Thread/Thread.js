@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import Timestamp from 'react-timestamp';
 import WebSocket from 'react-websocket';
@@ -23,9 +24,21 @@ class Thread extends Component {
         this.props.dispatch(threadActions.loadThread(id));
     }
 
+    componentWillUnmount() {
+        this.props.dispatch(threadActions.exitThreadView());
+        this.props.dispatch(threadActions.exitPostsView());
+    }
+
     render() {
         return (
-            <div className='container'>
+            <div
+                style= {{
+                    paddingLeft: '20px',
+                    paddingRight: '20px',
+                    marginTop: 64,
+                    overflowY: 'auto',
+                }}
+            >
                 <header>
                     <h3 className="backToIt">
                         <Link to={`/`}>Back to it</Link>
