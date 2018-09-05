@@ -29,7 +29,7 @@ class ThreadList extends Component {
 
     componentDidMount() {
         this.props.dispatch(threadActions.enterThreadList(false));
-        window.addEventListener('scroll', debounce(this.handleScroll, 250), { passive: true });
+        window.addEventListener('scroll', this.handleScroll, { passive: true });
         if (this.props.threads.length == 0) {
             this.props.dispatch(threadActions.loadThreads(new Date().valueOf()));
         }
@@ -44,7 +44,7 @@ class ThreadList extends Component {
         this.props.dispatch(threadActions.deleteThread(id));
     }
 
-    handleScroll = (e) => {
+    handleScroll = debounce((e) => {
         this.state.scrollPosition = document.getElementsByTagName('html')[0].scrollTop;
         let scrollBottom = document.body.clientHeight;
         let height = (this.state.scrollPosition + window.innerHeight);
@@ -66,7 +66,7 @@ class ThreadList extends Component {
             );
             this.state.loading = false;
         }
-    }
+    }, 250)
 
     componentDidUpdate(prevProps) {
         window.scrollTo(0, this.state.scrollPosition);
