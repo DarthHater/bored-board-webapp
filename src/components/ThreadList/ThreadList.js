@@ -50,7 +50,7 @@ class ThreadList extends Component {
         let height = (this.state.scrollPosition + window.innerHeight);
 
         if (
-            scrollBottom - height < 300 
+            scrollBottom - height < 300
             && !this.state.loading
             && this.props.threads.length >= 20
             && !this.props.threadsNull
@@ -96,7 +96,7 @@ class ThreadList extends Component {
                     </ThreadAdd>
                     {this.props.threads.map(thread => {
                         return (
-                            <Card 
+                            <Card
                                 style= {{
                                     display: 'flex',
                                     flexDirection: 'column-reverse',
