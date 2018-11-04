@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import Timestamp from 'react-timestamp';
 import WebSocket from 'react-websocket';
@@ -8,6 +8,7 @@ import config from 'react-global-configuration';
 import { debounce } from '../../../helpers/debounce';
 import directions from '../../../constants/directions';
 import { bindActionCreators } from 'redux';
+import Button from '@material-ui/core/Button';
 
 class ThreadPost extends Component {
 
@@ -20,10 +21,9 @@ class ThreadPost extends Component {
     }
 
     postsElem = null;
-    loading = false;
 
     async componentDidMount() {
-        const res = await this.props.actions.loadPosts(this.props.threadId);
+        var res = await this.props.actions.loadPosts(this.props.threadId);
         if (res && res.posts) {
             document.getElementById(res.posts[0].Id).scrollIntoView();
         }
@@ -42,7 +42,7 @@ class ThreadPost extends Component {
         }
     }
 
-    handleScroll = debounce(() => {
+    handleScroll = debounce((e) => {
         let height = this.postsElem.scrollHeight;
         let currentPosition = this.postsElem.scrollTop;
 
@@ -50,14 +50,14 @@ class ThreadPost extends Component {
 
         if (
             height - currentPosition < 500
-            && !this.loading
+            && !this.state.loading
             && posts.length >= 20
         ) {
             let post = posts[posts.length - 1];
             this.getThreads(new Date(post.PostedAt), directions.DOWN);
         } else if (
             currentPosition < 300
-            && !this.loading
+            && !this.state.loading
             && posts.length >= 20
         ) {
             let post = posts[0];
@@ -66,13 +66,13 @@ class ThreadPost extends Component {
     }, 250)
 
     async getThreads(date, direction) {
-        this.loading = true;
+        this.state.loading = true;
         let res = await this.props.actions.loadPosts(
             this.props.threadId,
             date.valueOf(),
             direction
         );
-        this.loading = false;
+        this.state.loading = false;
         if (direction === directions.UP) {
             let post = res.posts[res.posts.length - 1];
             document.getElementById(post.Id).scrollIntoView();
@@ -81,28 +81,38 @@ class ThreadPost extends Component {
 
     render() {
         const { posts } = this.props;
+
         return (
-            <div className="posts">
-                <ul className="postsListUl">
-                    {this.props.posts.map(post => {
-                        return (
-                            <li key={post.Id} className="post" id={post.Id}>
-                                <p>
-                                    by: <Link to={`/user/${post.UserId}`}>
-                                        {post.UserName}
-                                    </Link>
-                                    &nbsp;on <Timestamp time={post.PostedAt} format="full" />
-                                </p>
-                                <p>
-                                    {post.Body}
-                                </p>
-                            </li>
-                        )
-                    })}
-                </ul>
-                <WebSocket url={this.state.baseUrl}
-                    onMessage={this.handleSocket.bind(this)} />
-            </div>
+            <Fragment>
+                {/* <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => this.getThreads(new Date(posts[0].PostedAt), directions.UP)}
+                >
+                    Load Last 20
+                </Button> */}
+                <div className="posts">
+                    <ul className="postsListUl">
+                        {this.props.posts.map(post => {
+                            return (
+                                <li key={post.Id} className="post" id={post.Id}>
+                                    <p>
+                                        by: <Link to={`/user/${post.UserId}`}>
+                                            {post.UserName}
+                                        </Link>
+                                        &nbsp;on <Timestamp time={post.PostedAt} format="full" />
+                                    </p>
+                                    <p>
+                                        {post.Body}
+                                    </p>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                    <WebSocket url={this.state.baseUrl}
+                        onMessage={this.handleSocket.bind(this)} />
+                </div>
+            </Fragment>
         );
     }
 }
