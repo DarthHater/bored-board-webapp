@@ -21,6 +21,7 @@ class ThreadPost extends Component {
     }
 
     postsElem = null;
+    loading = false;
 
     async componentDidMount() {
         var res = await this.props.actions.loadPosts(this.props.threadId);
@@ -50,14 +51,14 @@ class ThreadPost extends Component {
 
         if (
             height - currentPosition < 500
-            && !this.state.loading
+            && !this.loading
             && posts.length >= 20
         ) {
             let post = posts[posts.length - 1];
             this.getThreads(new Date(post.PostedAt), directions.DOWN);
         } else if (
             currentPosition < 300
-            && !this.state.loading
+            && !this.loading
             && posts.length >= 20
         ) {
             let post = posts[0];
@@ -66,13 +67,13 @@ class ThreadPost extends Component {
     }, 250)
 
     async getThreads(date, direction) {
-        this.state.loading = true;
+        this.loading = true;
         let res = await this.props.actions.loadPosts(
             this.props.threadId,
             date.valueOf(),
             direction
         );
-        this.state.loading = false;
+        this.loading = false;
         if (direction === directions.UP) {
             let post = res.posts[res.posts.length - 1];
             document.getElementById(post.Id).scrollIntoView();
