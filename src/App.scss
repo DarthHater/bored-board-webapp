@@ -4,6 +4,15 @@ $black: hsl(200, 40, 10);
     white-space: pre-wrap;
 }
 
+ul.postsListUl {
+    list-style: none;
+    padding-left: 0px;
+}
+
+.post:nth-child(odd) { 
+    background: #efefef; 
+}
+
 blockquote {
     position: relative;
     padding-left: 1em;
