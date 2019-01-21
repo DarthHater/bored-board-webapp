@@ -45,7 +45,9 @@ class ThreadList extends Component {
     }
 
     handleScroll = debounce((e) => {
-        this.state.scrollPosition = document.getElementsByTagName('html')[0].scrollTop;
+        const doc = document.scrollingElement || document.body.parentNode || document.body;
+
+        this.state.scrollPosition = doc.scrollTop;
         let scrollBottom = document.body.clientHeight;
         let height = (this.state.scrollPosition + window.innerHeight);
 
