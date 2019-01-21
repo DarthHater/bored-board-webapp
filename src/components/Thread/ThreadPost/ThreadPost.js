@@ -32,12 +32,12 @@ class ThreadPost extends Component {
                     {this.props.posts.map(post => {
                         return (
                             <li key={post.Id} className="post">
-                                <p>
-                                    by: <Link to={`/user/${post.UserId}`}>
+                                <h4>
+                                    Posted by <Link to={`/user/${post.UserId}`}>
                                         {post.UserName}
                                     </Link>
                                     &nbsp;on <Timestamp time={post.PostedAt} format="full" />
-                                </p>
+                                </h4>
                                 <p>
                                     {parser.toReact(post.Body)}
                                 </p>
