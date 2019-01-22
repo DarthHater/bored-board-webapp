@@ -84,7 +84,7 @@ class ThreadPost extends Component {
                                     </Button>
                                 )}
                             </Grid> 
-                            <Grid item xs={12} className="post body" id={`post_body_${post.Id}`}>
+                            <Grid item xs={12} className="post body">
                                 {parser.toReact(post.Body)}
                             </Grid>
                             <input type="hidden" value={post.Body} id={`post_body_input_${post.Id}`} />
