@@ -1,13 +1,38 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Timestamp from 'react-timestamp';
-import WebSocket from 'react-websocket';
+import { connect } from 'react-redux';
+
+import Fab from '@material-ui/core/Fab';
+import { withStyles } from '@material-ui/core/styles';
+import NavigationIcon from '@material-ui/icons/Navigation';
+
 import ThreadReply from './ThreadReply/ThreadReply';
 import ThreadPost from './ThreadPost/ThreadPost';
-import { connect } from 'react-redux';
-import config from 'react-global-configuration';
+
 import { threadActions } from '../../actions/index';
 import * as auth from '../../auth/authentication';
+
+const styles = {
+    fab: {
+      margin: '10px',
+      width: 'auto',
+      borderRadius: '30px',
+      paddingLeft: '0px',
+      paddingRight: '16px',
+      height: '48px',
+      position: 'fixed',
+      top: 'auto',
+      right: '20px',
+      bottom: '20px',
+      left: 'auto',
+      zIndex: '100'
+    },
+    extendedIcon: {
+      marginRight: '8px',
+      marginLeft: '8px'
+    },
+};
 
 class Thread extends Component {
 
@@ -34,6 +59,7 @@ class Thread extends Component {
     }
 
     render() {
+        const { classes } = this.props;
         return (
             <div
                 style= {{
@@ -44,9 +70,15 @@ class Thread extends Component {
                 }}
             >
                 <header>
-                    <h3 className="backToIt">
-                        <Link to={`/`}>Back to it</Link>
-                    </h3>
+                    <Fab 
+                        color="secondary" 
+                        aria-label="Back to it" 
+                        className={classes.fab}
+                        onClick={() => this.props.history.go(-1)}
+                    >
+                    <NavigationIcon className={classes.extendedIcon}/>
+                        Back to it
+                    </Fab>
                     <h1>
                         {this.props.thread.Title }
                     </h1>
@@ -75,4 +107,4 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
-export default connect(mapStateToProps)(Thread);
+export default connect(mapStateToProps)(withStyles(styles)(Thread));
