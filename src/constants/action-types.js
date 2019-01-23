@@ -1,5 +1,6 @@
 export const threadConstants = {
     ADD_POST: 'ADD_POST',
+    EDIT_POST: 'EDIT_POST',
     ADD_THREAD: 'ADD_THREAD',
     RECIEVE_POST: 'RECIEVE_POST',
     DELETE_THREAD: 'DELETE_THREAD',

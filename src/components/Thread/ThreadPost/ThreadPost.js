@@ -5,9 +5,10 @@ import WebSocket from 'react-websocket';
 import { connect } from 'react-redux';
 import config from 'react-global-configuration';
 import parser from 'bbcode-to-react';
-import { Grid, Button } from '@material-ui/core';
+import { Grid, Button, TextField } from '@material-ui/core';
 import grey from '@material-ui/core/colors/grey';
-
+import { canEditPost } from '../../../helpers/PostHelper';
+import { bindActionCreators } from 'redux';
 import { threadActions } from '../../../actions/index';
 import * as auth from '../../../auth/authentication';
 import * as permissions from '../../../constants/permissions';
@@ -28,16 +29,17 @@ class ThreadPost extends Component {
 
         this.state = {
             baseUrl: config.get('WS_ROOT'),
-            userCanEditPost: auth.userHasPermission(permissions.canEditPost)
+            postId: '',
+            userCanEditPost: auth.userHasPermission(permissions.canEditPost),
+            currentPostEditingId: null
         }
-
-        this.props.dispatch(threadActions.loadPosts(this.props.threadId));
+        this.props.actions.loadPosts(this.props.threadId);
     }
 
     handleSocket(data) {
         let result = JSON.parse(data);
         if (result.ThreadId == this.props.threadId) {
-            this.props.dispatch(threadActions.recievePost(data));
+            this.props.actions.recievePost(data);
         }
     }
 
@@ -48,14 +50,36 @@ class ThreadPost extends Component {
         this.props.quotePostCallback(post);
     }
 
-    editPost = id => {
-        alert(id);
+    handleKeyPress = ev => {
+        if (ev.key === 'Enter' && ev.shiftKey) {
+            return;
+        }
+
+        if (ev.key === 'Enter' && this.state.currentPostEditingId !== null) {
+            this.editPost(null);
+        }
     }
+
+    editPost = id => {
+        if (id === null) {
+            const { currentPostEditingId } = this.state;
+            let editedBody = document.getElementById(`post_body_edit_input_${currentPostEditingId}`).value;
+            this.props.actions.editPost(editedBody, currentPostEditingId);
+        }
+
+        this.setState({
+            currentPostEditingId: id
+        });
+    };
 
     render() {
         return (
-        <div className="posts">
+            <div className="posts">
                 {this.props.posts.map(post => {
+                    const { currentPostEditingId } = this.state;
+
+                    const editIsOpen = currentPostEditingId === post.Id;
+
                     return (
                         <Grid container spacing={0} key={post.Id}>
                             <Grid item xs={12} sm={8} className="post header info" id={`post_info_${post.Id}`}>
@@ -67,29 +91,44 @@ class ThreadPost extends Component {
                                 </h4>
                             </Grid>
                             <Grid item xs={12} sm={4} className="post header controls" >
-                                <Button 
+                                <Button
                                     style={styles.button}
                                     size="small"
                                     onClick={() => this.handleQuote(post.Id)}
                                 >
                                     » Quote
                                 </Button>
-                                {this.state.userCanEditPost && (
+                                {(this.state.userCanEditPost || (auth.checkUser(post.UserId) && canEditPost(post))) &&
                                     <Button
                                         style={styles.button}
                                         size="small"
-                                        onClick={() => this.editPost(post.Id)}
+                                        onClick={() => {
+                                            editIsOpen ? this.editPost(null) : this.editPost(post.Id)
+                                        }}
                                     >
-                                        » Edit Post
+                                        » {editIsOpen ? "Done" : "Edit Post"}
                                     </Button>
-                                )}
-                            </Grid> 
+                                }
+                            </Grid>
                             <Grid item xs={12} className="post body">
-                                {parser.toReact(post.Body)}
+                                {editIsOpen ? (
+                                    <TextField
+                                        id={`post_body_edit_input_${post.Id}`}
+                                        className="w-100"
+                                        defaultValue={post.Body}
+                                        margin="normal"
+                                        variant="outlined"
+                                        onKeyPress={this.handleKeyPress}
+                                        multiline={true}
+                                        rows={4}
+                                        rowsMax={24}
+                                    />
+                                ) :
+                                    parser.toReact(post.Body)
+                                }
                             </Grid>
                             <input type="hidden" value={post.Body} id={`post_body_input_${post.Id}`} />
                         </Grid>
-                        
                     )
                 })}
 
@@ -100,10 +139,16 @@ class ThreadPost extends Component {
     }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
         posts: state.posts
     };
 }
 
-export default connect(mapStateToProps)(ThreadPost);
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(threadActions, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ThreadPost);

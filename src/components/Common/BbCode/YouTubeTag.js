@@ -1,6 +1,5 @@
 import React from 'react';
 import { Tag } from 'bbcode-to-react';
-import { getLocation } from '../../../utilities/utilities';
 import parse from 'url-parse';
 
 class YoutubeTag extends Tag {

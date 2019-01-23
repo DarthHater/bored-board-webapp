@@ -73,6 +73,21 @@ class ThreadService {
             });
     }
 
+    editPost(text, postId) {
+        let baseUrl = config.get('API_ROOT');
+        const headers = getRequestHeaders();
+
+        return axios.patch(`${baseUrl}/posts/${postId}`, JSON.stringify({
+                Body: text
+            }), {
+                headers: headers
+            }).then(response => {
+                return response.data;
+            }).catch(error => {
+                return error;
+            });
+    }
+
     deleteThread(threadId) {
         let baseUrl = config.get('API_ROOT');
         const headers = getRequestHeaders();

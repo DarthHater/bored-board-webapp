@@ -7,6 +7,13 @@ export function isLoggedIn() {
     return true;
 }
 
+export function checkUser(userId) {
+    if (userId === getUserId()) {
+        return true;
+    }
+    return false;
+}
+
 export function userHasPermission(permission) {
     return permission.includes(getUserRole());
 }
