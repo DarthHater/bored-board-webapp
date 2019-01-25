@@ -1,5 +1,8 @@
 server {
   listen $PORT default_server;
+
+  return 301 https://$host$request_uri;
+  
   root /www/vivalavinyl;
   index index.html;
 
