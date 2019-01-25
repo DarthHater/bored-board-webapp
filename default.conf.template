@@ -1,8 +1,6 @@
 server {
   listen $PORT default_server;
 
-  return 301 https://$host$request_uri;
-  
   root /www/vivalavinyl;
   index index.html;
 
@@ -39,6 +37,10 @@ server {
   }
 
   location / {
+    if ($http_x_forwarded_proto != 'https') {
+      rewrite ^ https://$host$request_uri? permanent;
+    }
+    
     try_files $uri $uri/ /index.html;
   }
 }
