@@ -1,6 +1,6 @@
 import React from 'react';
 import ThreadList from './ThreadList';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
@@ -30,7 +30,6 @@ describe("A test", () => {
     });
 
     it("Always renders a div", () => {
-        fetch.mockResponse(JSON.stringify({ test: 'test' }));
         const divs = threadList().find("div");
         expect(divs.length).toBeGreaterThan(0);
     });

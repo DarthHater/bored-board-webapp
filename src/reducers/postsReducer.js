@@ -6,15 +6,11 @@ export default function postsReducer(state = initialState.posts, action) {
         case threadConstants.LOAD_POSTS_SUCCESS:
             return action.posts
         case threadConstants.ADD_POST:
-            let newAddPost = insertItem(state, action.post);
-            return newAddPost;
+            return insertItem(state, action.post);
         case threadConstants.EDIT_POST:
-            let newEditPost = editItem(state, action.post);
-            return newEditPost;
+            return editItem(state, action.post);
         case threadConstants.RECIEVE_POST:
-            let obj = JSON.parse(action.post);
-            let newRecievePost = insertItem(state, obj);
-            return newRecievePost;
+            return insertItem(state, JSON.parse(action.post));
         case threadConstants.EXIT_POST_VIEW:
             return [];
         default:
@@ -47,7 +43,7 @@ function insertItem(array, action) {
 
     if(index > -1) {
         // noop
-    } 
+    }
     else {
         newArray.push(action)
     }

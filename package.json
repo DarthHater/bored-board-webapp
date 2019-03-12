@@ -16,7 +16,13 @@
     "css-loader": "^2.1.0",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
+    "eslint": "^5.15.1",
+    "eslint-config-airbnb": "^17.1.0",
     "eslint-loader": "^2.1.2",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-watch": "^5.0.1",
     "html-webpack-plugin": "^3.2.0",
     "html-webpack-template": "^6.1.0",
     "jest": "^23.0.0",
@@ -38,6 +44,7 @@
     "@material-ui/core": "^3.9.0",
     "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
+    "babel-eslint": "^10.0.1",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-polyfill": "^6.26.0",
     "bbcode-to-react": "^0.2.9",
@@ -60,7 +67,8 @@
   "scripts": {
     "start": "webpack-dev-server --open --config ./webpack/dev.js",
     "build": "webpack --config ./webpack/prod.js",
-    "test": "jest"
+    "test": "jest",
+    "lint": "esw webpack/* src --color"
   },
   "jest": {
     "automock": false,

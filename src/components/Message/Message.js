@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Timestamp from 'react-timestamp';
-import WebSocket from 'react-websocket';
 import People from '@material-ui/icons/People'
 import MessageReply from './MessageReply/MessageReply';
 import MessagePost from './MessagePost/MessagePost';
 import { connect } from 'react-redux';
-import config from 'react-global-configuration';
 import { messageActions } from '../../actions/index';
 import * as auth from '../../auth/authentication';
 
@@ -92,7 +89,7 @@ class Message extends Component {
     }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
     return {
         message: state.message,
         message_posts: state.message_posts

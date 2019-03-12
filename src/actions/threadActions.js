@@ -128,7 +128,7 @@ function recievePost(post) {
 function deleteThread(threadId) {
     return function (dispatch) {
         return ThreadService.deleteThread(threadId)
-            .then(response => {
+            .then(() => {
                 dispatch(deleteThreadSuccess(threadId));
             }).catch(error => {
                 throw (error);

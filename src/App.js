@@ -11,6 +11,7 @@ import NavigationBar from './components/NavigationBar/NavigationBar';
 import Login from './components/Login/Login';
 import Register from './components/Register/Register';
 import UserProfile from './components/UserProfile/UserProfile'
+import PropTypes from 'prop-types';
 import { isLoggedIn } from './auth/authentication';
 import { ConnectedRouter } from 'connected-react-router'
 
@@ -66,6 +67,12 @@ class App extends Component {
             </MuiThemeProvider>
         );
     }
+}
+
+App.propTypes = {
+    messages: PropTypes.arrayOf(PropTypes.object),
+    threads: PropTypes.arrayOf(PropTypes.object),
+    history: PropTypes.object.isRequired
 }
 
 const mapStateToProps = function (state) {
