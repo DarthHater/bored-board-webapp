@@ -15,17 +15,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['env', 'react'],
-            plugins: [
-              'transform-class-properties',
-              'transform-object-rest-spread',
-              'babel-plugin-transform-async-to-generator',
-            ],
-          },
-        },
+        loader: ['babel-loader'],
       },
       {
         test: /\.scss$/,
