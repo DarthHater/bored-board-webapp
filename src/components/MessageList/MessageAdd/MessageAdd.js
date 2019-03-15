@@ -1,127 +1,146 @@
+/* eslint-disable no-return-assign */
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
-import { messageActions } from '../../../actions';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import PropTypes from 'prop-types';
+import { messageActions } from '../../../actions';
 import MultiSelect from '../../Common/MultiSelect';
 
 class MessageAdd extends Component {
+  constructor(props) {
+    super(props);
 
-    constructor(props) {
-        super(props);
+    this.state = {
+      title: '',
+      body: '',
+    };
 
-        this.state = {
-            value: '',
-            title: '',
-            body: ''
-        };
+    this.handlePostChange = this.handlePostChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-        this.handlePostChange = this.handlePostChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+  componentDidMount() {
+    const { toUserName, toUserId, dispatch } = this.props;
+
+    ValidatorForm.addValidationRule('multiSelectNotEmpty', () => {
+      const { messageUsers } = this.props;
+      if (messageUsers.length === 0) {
+        return false;
+      }
+      return true;
+    });
+
+    if (toUserId && toUserName) {
+      dispatch(
+        messageActions.updateMessageUsers([
+          { ID: toUserId, Username: toUserName },
+        ])
+      );
+      this.scrollDiv.focus();
     }
+  }
 
-    componentDidMount() {
-        ValidatorForm.addValidationRule('multiSelectNotEmpty', () => {
-            if (this.props.message_users.length === 0) {
-                return false;
-            }
-            return true;
-        });
+  handleMessageChange = event => {
+    this.setState({ title: event.target.value });
+  };
 
-        if (this.props.toUserId && this.props.toUserName) {
-            this.props.dispatch(messageActions.updateMessageUsers([{ ID: this.props.toUserId, Username: this.props.toUserName }]));
-            this.scrollDiv.focus();
-        }
-    }
+  handlePostChange = event => {
+    this.setState({ body: event.target.value });
+  };
 
-    handleMessageChange = (event) => {
-        this.setState({ title: event.target.value });
-    }
+  handleSubmit(event) {
+    const date = new Date(Date.now());
+    const { userId, messageUsers, dispatch } = this.props;
+    const { title, body } = this.state;
 
-    handlePostChange = (event) => {
-        this.setState({ body: event.target.value });
-    }
+    const data = {
+      Message: {
+        UserId: userId,
+        Title: title,
+        PostedAt: date,
+      },
+      MessagePost: {
+        UserId: userId,
+        Body: body,
+        PostedAt: date,
+      },
+      MessageMember: messageUsers.map(user => ({
+        UserId: user.ID,
+      })),
+    };
+    data.MessageMember.push({
+      UserId: userId,
+    });
+    dispatch(messageActions.addMessage(data));
 
-    handleSubmit(event) {
-        let date = new Date(Date.now());
-        let data = {
-            Message: {
-                UserId: this.props.userId,
-                Title: this.state.title,
-                PostedAt: date
-            },
-            MessagePost: {
-                UserId: this.props.userId,
-                Body: this.state.body,
-                PostedAt: date
-            },
-            MessageMember: this.props.message_users.map(user => {
-                return {
-                    UserId: user.ID
-                }
-            })
-        }
-        data.MessageMember.push({
-            UserId: this.props.userId
-        })
-        this.props.dispatch(messageActions.addMessage(data));
+    this.setState({ title: '', body: '' });
 
-        this.setState({ title: '', body: '' });
+    event.preventDefault();
+  }
 
-        event.preventDefault();
-    }
-
-    render() {
-        return (
-            <div className='container'>
-                <h3>Submit a new message</h3>
-                <div ref={div => this.scrollDiv = div}>
-                    <ValidatorForm
-                        ref="form"
-                        onSubmit={this.handleSubmit}
-                        onError={errors => console.log(errors)}
-                    >
-                        <MultiSelect />
-                        <TextValidator
-                            label="Title"
-                            onChange={this.handleMessageChange}
-                            name="title"
-                            value={this.state.title}
-                            validators={['required']}
-                            errorMessages={['this field is required']}
-                            ref={text => this.text = text}
-                        />
-                        <p></p>
-                        <TextValidator
-                            label="Say something"
-                            onChange={this.handlePostChange}
-                            name="multiline-static"
-                            value={this.state.body}
-                            multiline
-                            rows="5"
-                            margin="normal"
-                            validators={['required']}
-                            errorMessages={['this field is required']}
-                        />
-                        <p></p>
-                        <Button
-                            type="submit" >
-                            say it!
-                    </Button>
-                    </ValidatorForm>
-                </div>
-            </div>
-        );
-    }
+  render() {
+    const { title, body } = this.state;
+    return (
+      <div className="container">
+        <h3>Submit a new message</h3>
+        <div ref={div => (this.scrollDiv = div)}>
+          <ValidatorForm
+            // eslint-disable-next-line react/no-string-refs
+            ref="form"
+            onSubmit={this.handleSubmit}
+          >
+            <MultiSelect />
+            <TextValidator
+              label="Title"
+              onChange={this.handleMessageChange}
+              name="title"
+              value={title}
+              validators={['required']}
+              errorMessages={['this field is required']}
+              ref={text => (this.text = text)}
+            />
+            <p />
+            <TextValidator
+              label="Say something"
+              onChange={this.handlePostChange}
+              name="multiline-static"
+              value={body}
+              multiline
+              rows="5"
+              margin="normal"
+              validators={['required']}
+              errorMessages={['this field is required']}
+            />
+            <p />
+            <Button type="submit">say it!</Button>
+          </ValidatorForm>
+        </div>
+      </div>
+    );
+  }
 }
 
-function mapStateToProps(state, ownProps) {
-    return {
-        messages: state.messages,
-        message: state.message,
-        message_posts: state.message_posts,
-        message_users: state.message_users
-    };
+MessageAdd.propTypes = {
+  userId: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  messageUsers: PropTypes.arrayOf(PropTypes.shape).isRequired,
+  toUserName: PropTypes.string,
+  toUserId: PropTypes.string,
+};
+
+MessageAdd.defaultProps = {
+  toUserName: '',
+  toUserId: '',
+};
+
+function mapStateToProps(state) {
+  return {
+    messages: state.messages,
+    message: state.message,
+    messagePosts: state.messagePosts,
+    messageUsers: state.messageUsers,
+  };
 }
 
 export default connect(mapStateToProps)(MessageAdd);

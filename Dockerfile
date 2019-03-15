@@ -1,4 +1,4 @@
-FROM node:8.9 AS build
+FROM node:10.15 AS build
 
 WORKDIR /code
 COPY . .
@@ -11,7 +11,7 @@ RUN yarn global add webpack-cli
 
 RUN webpack --config ./webpack/prod.js
 
-FROM nginx:latest 
+FROM nginx:latest
 COPY --from=build /code/dist/ /www/vivalavinyl/
 
 COPY default.conf.template /etc/nginx/conf.d/default.conf.template

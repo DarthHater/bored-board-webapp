@@ -1,36 +1,41 @@
-import { messageConstants } from '../constants/message-types';
+import messageConstants from '../constants/message-types';
 import initialState from './initialState';
 
-export default function message_postsReducer(state = initialState.message_posts, action) {
-    switch(action.type) {
-        case messageConstants.LOAD_MESSAGE_POSTS_SUCCESS:
-            return action.message_posts;
-        case messageConstants.ADD_MESSAGE_POST:
-            let newAddMessagePost = insertItem(state, action.message_post);
-            return newAddMessagePost;
-        case messageConstants.RECIEVE_MESSAGE_POST:
-            let obj = JSON.parse(action.message_post);
-            let newRecieveMessagePost = insertItem(state, obj);
-            return newRecieveMessagePost;
-        default:
-            return state;
+function insertItem(array, action) {
+  const newArray = array.slice();
+  let index = -1;
+
+  for (let i = 0; i < newArray.length; i++) {
+    if (newArray[i].Id === action.Id) {
+      index = i;
     }
+  }
+
+  if (index > -1) {
+    // noop
+  } else {
+    newArray.push(action);
+  }
+  return newArray;
 }
 
-function insertItem(array, action) {
-    let newArray = array.slice();
-    let index = -1;
-    
-    for(var i = 0; i < newArray.length; i++) {
-      if(newArray[i].Id === action.Id) {
-        index = i;
-      }
+export default function messagePostsReducer(
+  state = initialState.messagePosts,
+  action
+) {
+  switch (action.type) {
+    case messageConstants.LOAD_MESSAGE_POSTS_SUCCESS:
+      return action.messagePosts;
+    case messageConstants.ADD_MESSAGE_POST: {
+      const newAddMessagePost = insertItem(state, action.messagePost);
+      return newAddMessagePost;
     }
-
-    if(index > -1) {
-        // noop
-    } else {
-        newArray.push(action)
+    case messageConstants.RECIEVE_MESSAGE_POST: {
+      const obj = JSON.parse(action.messagePost);
+      const newRecieveMessagePost = insertItem(state, obj);
+      return newRecieveMessagePost;
     }
-    return newArray;
+    default:
+      return state;
+  }
 }

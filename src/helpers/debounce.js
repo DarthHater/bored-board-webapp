@@ -1,10 +1,12 @@
-export const debounce = (fn, time) => {
-    let timeout;
+export default (fn, time) => {
+  let timeout;
 
-    return function() {
-        const functionCall = () => fn.apply(this, arguments);
+  // eslint-disable-next-line func-names
+  return function() {
+    // eslint-disable-next-line prefer-rest-params
+    const functionCall = () => fn.apply(this, arguments);
 
-        clearTimeout(timeout);
-        timeout = setTimeout(functionCall, time);
-    }
-}
+    clearTimeout(timeout);
+    timeout = setTimeout(functionCall, time);
+  };
+};

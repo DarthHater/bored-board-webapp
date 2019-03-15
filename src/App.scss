@@ -1,37 +1,37 @@
-@import './styles/utilities';
+@import "./styles/utilities";
 
 $black: hsl(200, 40, 10);
 
 .post.header {
-    white-space: pre-wrap;
-    background: lightgrey;
+  white-space: pre-wrap;
+  background: lightgrey;
 }
 
 .post.header.info {
-    white-space: pre-wrap;
-    padding-left: 10px;
-    text-align: left;
+  white-space: pre-wrap;
+  padding-left: 10px;
+  text-align: left;
 }
 
 .post.body {
-    white-space: pre-wrap;
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    text-align: left;
+  white-space: pre-wrap;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: left;
 }
 
 .post.header.controls {
-    text-align: right;
+  text-align: right;
 }
 
 ul.postsListUl {
-    list-style: none;
-    padding-left: 0px;
+  list-style: none;
+  padding-left: 0px;
 }
 
 blockquote {
-    position: relative;
-    padding-left: 1em;
-    border-left: 0.2em solid lighten($black, 40%);
+  position: relative;
+  padding-left: 1em;
+  border-left: 0.2em solid lighten($black, 40%);
 }

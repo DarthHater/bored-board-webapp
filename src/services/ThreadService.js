@@ -3,103 +3,103 @@ import axios from 'axios';
 import { getRequestHeaders } from '../auth/authentication';
 
 class ThreadService {
+  getAllThreads = since => {
+    const baseUrl = config.get('API_ROOT');
+    const headers = getRequestHeaders();
 
-    getAllThreads(since) {
-        let baseUrl = config.get('API_ROOT');
-        const headers = getRequestHeaders();
+    return axios
+      .get(`${baseUrl}/threads/${since}`, {
+        headers,
+      })
+      .then(response => response.data)
+      .catch(error => error);
+  };
 
-        return axios.get(`${baseUrl}/threads/${since}`, {
-            headers: headers
-        }).then(response => {
-            return response.data;
-        }).catch(error => {
-            return error;
-        });
-    }
+  getThread = threadId => {
+    const baseUrl = config.get('API_ROOT');
+    const headers = getRequestHeaders();
 
-    getThread(threadId) {
-        let baseUrl = config.get('API_ROOT');
-        const headers = getRequestHeaders();
+    return axios
+      .get(`${baseUrl}/thread/${threadId}`, {
+        headers,
+      })
+      .then(response => response.data)
+      .catch(error => error);
+  };
 
-        return axios.get(`${baseUrl}/thread/${threadId}`, {
-            headers: headers
-        }).then(response => {
-            return response.data;
-        }).catch(error => {
-            return error;
-        });
-    }
+  postThread = data => {
+    const baseUrl = config.get('API_ROOT');
+    const headers = getRequestHeaders();
 
-    postThread(data) {
-        let baseUrl = config.get('API_ROOT');
-        const headers = getRequestHeaders();
+    return axios
+      .post(`${baseUrl}/thread`, JSON.stringify(data), {
+        headers,
+      })
+      .then(response => response.data)
+      .catch(error => error);
+  };
 
-        return axios.post(`${baseUrl}/thread`, JSON.stringify(data), {
-            headers: headers
-        }).then(response => {
-            return response.data;
-        }).catch(error => {
-            return error;
-        });
-    }
+  getPosts = threadId => {
+    const baseUrl = config.get('API_ROOT');
+    const headers = getRequestHeaders();
 
-    getPosts(threadId) {
-        let baseUrl = config.get('API_ROOT');
-        const headers = getRequestHeaders();
+    return axios
+      .get(`${baseUrl}/posts/${threadId}`, {
+        headers,
+      })
+      .then(response => response.data)
+      .catch(error => error);
+  };
 
-        return axios.get(`${baseUrl}/posts/${threadId}`, {
-            headers: headers
-        }).then(response => {
-            return response.data;
-        }).catch(error => {
-            return error;
-        });
-    }
+  postPost = (threadId, userId, body) => {
+    const baseUrl = config.get('API_ROOT');
+    const headers = getRequestHeaders();
 
-    postPost(threadId, userId, body) {
-        let baseUrl = config.get('API_ROOT');
-        const headers = getRequestHeaders();
+    return axios
+      .post(
+        `${baseUrl}/post`,
+        JSON.stringify({
+          ThreadId: threadId,
+          UserId: userId,
+          Body: body,
+        }),
+        {
+          headers,
+        }
+      )
+      .then(response => response.data)
+      .catch(error => error);
+  };
 
-        return axios.post(`${baseUrl}/post`, JSON.stringify({
-            ThreadId: threadId,
-            UserId: userId,
-            Body: body,
-        }), {
-                headers: headers
-            }).then(response => {
-                return response.data;
-            }).catch(error => {
-                return error;
-            });
-    }
+  editPost = (text, postId) => {
+    const baseUrl = config.get('API_ROOT');
+    const headers = getRequestHeaders();
 
-    editPost(text, postId) {
-        let baseUrl = config.get('API_ROOT');
-        const headers = getRequestHeaders();
+    return axios
+      .patch(
+        `${baseUrl}/posts/${postId}`,
+        JSON.stringify({
+          Body: text,
+        }),
+        {
+          headers,
+        }
+      )
+      .then(response => response.data)
+      .catch(error => error);
+  };
 
-        return axios.patch(`${baseUrl}/posts/${postId}`, JSON.stringify({
-                Body: text
-            }), {
-                headers: headers
-            }).then(response => {
-                return response.data;
-            }).catch(error => {
-                return error;
-            });
-    }
+  deleteThread = threadId => {
+    const baseUrl = config.get('API_ROOT');
+    const headers = getRequestHeaders();
 
-    deleteThread(threadId) {
-        let baseUrl = config.get('API_ROOT');
-        const headers = getRequestHeaders();
-
-        return axios.delete(`${baseUrl}/thread/${threadId}`, {
-            headers: headers
-        }).then(response => {
-            return response.data;
-        }).catch(error => {
-            return error;
-        });
-    }
+    return axios
+      .delete(`${baseUrl}/thread/${threadId}`, {
+        headers,
+      })
+      .then(response => response.data)
+      .catch(error => error);
+  };
 }
 
 export default new ThreadService();

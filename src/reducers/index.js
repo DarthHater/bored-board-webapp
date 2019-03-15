@@ -5,20 +5,20 @@ import posts from './postsReducer';
 import user from './userReducer';
 import message from './messageReducer';
 import messages from './messagesReducer';
-import message_posts from './messagePostsReducer';
-import message_users from './messageUsersReducer';
+import messagePosts from './messagePostsReducer';
+import messageUsers from './messageUsersReducer';
 import threadsNull from './threadNullReducer';
 
 const rootReducer = combineReducers({
-    threads,
-    threadsNull,
-    thread,
-    posts,
-    message,
-    messages,
-    message_posts,
-    user,
-    message_users
-})
+  threads,
+  threadsNull,
+  thread,
+  posts,
+  message,
+  messages,
+  messagePosts,
+  user,
+  messageUsers,
+});
 
 export default rootReducer;
