@@ -9,7 +9,8 @@ global.fetch = require('jest-fetch-mock');
 // sessionStorage
 jest.spyOn(window.sessionStorage.__proto__, 'getItem');
 window.sessionStorage.__proto__.getItem = jest.fn(
-    () => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIiLCJleHAiOjEzOTMyODY4OTMsImlhdCI6MTM5MzI2ODg5M30.4-iaDojEVl0pJQMjrbM1EzUIfAZgsbK_kgnVyVxFSVo'
+  () =>
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmb28iOiJiYXIiLCJleHAiOjEzOTMyODY4OTMsImlhdCI6MTM5MzI2ODg5M30.4-iaDojEVl0pJQMjrbM1EzUIfAZgsbK_kgnVyVxFSVo'
 );
 
 // react-global-configuration

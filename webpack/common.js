@@ -5,7 +5,7 @@ const HtmlWebpackTemplate = require('html-webpack-template');
 
 module.exports = {
   mode: 'development',
-  entry: ['babel-polyfill', './src/index.js'],
+  entry: ['@babel/polyfill', './src/index.js'],
   output: {
     filename: '[name].[contenthash].bundle.js',
     path: path.resolve('./dist'),
@@ -15,7 +15,14 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loader: ['babel-loader'],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+            },
+          },
+        ],
       },
       {
         test: /\.scss$/,

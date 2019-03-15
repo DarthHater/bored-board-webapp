@@ -21,6 +21,7 @@ describe('A test', () => {
     props = {
       store: mockStore({
         threads: [],
+        threadsNull: false,
       }),
     };
 
