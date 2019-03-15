@@ -67,11 +67,11 @@ class MessageList extends Component {
                   </Link>
                 </Typography>
                 <Typography component="p">
-                  by:
+                  by:&nbsp;
                   <Link to={`/user/${message.UserId}`}>
                     {message.UserName}
                   </Link>{' '}
-                  on
+                  on&nbsp;
                   <Timestamp time={message.PostedAt} format="full" />
                 </Typography>
               </Grid>

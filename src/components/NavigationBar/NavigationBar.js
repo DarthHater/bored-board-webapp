@@ -198,7 +198,7 @@ class NavigationBar extends Component {
                   variant="outlined"
                   color="inherit"
                 >
-                  Logout
+                  Logout&nbsp;
                   {getUsername()}
                 </Button>
               </Hidden>

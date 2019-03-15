@@ -60,7 +60,7 @@ class UserProfile extends Component {
               },
             }}
           >
-            Message
+            Message&nbsp;
             {userInfo.username}
           </Link>
         </div>

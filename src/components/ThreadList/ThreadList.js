@@ -126,10 +126,10 @@ class ThreadList extends Component {
                     </Link>
                   </Typography>
                   <Typography component="p">
-                    by:
+                    by:&nbsp;
                     <Link to={`/user/${t.UserId}`}>{t.UserName}</Link> on
                     <Timestamp time={t.PostedAt} format="full" />
-                    , last post on
+                    , last post on&nbsp;
                     <Timestamp time={t.LastPostedAt} format="full" />
                   </Typography>
                 </Grid>
