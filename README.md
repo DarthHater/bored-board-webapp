@@ -8,7 +8,7 @@ Here we go again
 
 This is the start of a frontend app for the new Bored Board to use
 
-It's written in Typescript and shouts to the supporting team:
+It's written in ES6 and shouts to the supporting team:
 
 * Yarn
 * React
