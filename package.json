@@ -93,7 +93,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "yarn test && yarn format && yarn --max-warnings=0"
+      "pre-push": " yarn format && yarn test && yarn lint --max-warnings=0"
     }
   }
 }
