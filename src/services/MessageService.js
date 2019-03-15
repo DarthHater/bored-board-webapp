@@ -3,75 +3,73 @@ import axios from 'axios';
 import { getRequestHeaders } from '../auth/authentication';
 
 class MessageService {
+  getAllMessages = userId => {
+    const baseUrl = config.get('API_ROOT');
+    const headers = getRequestHeaders();
 
-    getAllMessages(userId) {
-        let baseUrl = config.get('API_ROOT');
-        const headers = getRequestHeaders();
+    return axios
+      .get(`${baseUrl}/messages/${userId}`, {
+        headers,
+      })
+      .then(response => response.data)
+      .catch(error => error);
+  };
 
-        return axios.get(`${baseUrl}/messages/${userId}`, {
-            headers: headers
-        }).then(response => {
-            return response.data;
-        }).catch(error => {
-            return error;
-        });
-    }
+  getMessage = messageId => {
+    const baseUrl = config.get('API_ROOT');
+    const headers = getRequestHeaders();
 
-    getMessage(messageId) {
-        let baseUrl = config.get('API_ROOT');
-        const headers = getRequestHeaders();
+    return axios
+      .get(`${baseUrl}/message/${messageId}`, {
+        headers,
+      })
+      .then(response => response.data)
+      .catch(error => error);
+  };
 
-        return axios.get(`${baseUrl}/message/${messageId}`, {
-            headers: headers
-        }).then(response => {
-            return response.data;
-        }).catch(error => {
-            return error;
-        });
-    }
+  postMessage = data => {
+    const baseUrl = config.get('API_ROOT');
+    const headers = getRequestHeaders();
 
-    postMessage(data) {
-        let baseUrl = config.get('API_ROOT');
-        const headers = getRequestHeaders();
+    return axios
+      .post(`${baseUrl}/newmessage`, JSON.stringify(data), {
+        headers,
+      })
+      .then(response => response.data)
+      .catch(error => error);
+  };
 
-        return axios.post(`${baseUrl}/newmessage`, JSON.stringify(data), {
-            headers: headers
-        }).then(response => {
-            return response.data;
-        }).catch(error => {
-            return error;
-        });
-    }
+  getMessagePosts = messageId => {
+    const baseUrl = config.get('API_ROOT');
+    const headers = getRequestHeaders();
 
-    getMessagePosts(messageId) {
-        let baseUrl = config.get('API_ROOT');
-        const headers = getRequestHeaders();
+    return axios
+      .get(`${baseUrl}/messageposts/${messageId}`, {
+        headers,
+      })
+      .then(response => response.data)
+      .catch(error => error);
+  };
 
-        return axios.get(`${baseUrl}/messageposts/${messageId}`, {
-            headers: headers
-        }).then(response => {
-            return response.data;
-        }).catch(error => {
-            return error;
-        });
-    }
+  postMessagePost = (messageId, userId, body) => {
+    const baseUrl = config.get('API_ROOT');
+    const headers = getRequestHeaders();
 
-    postMessagePost(messageId, userId, body) {
-        let baseUrl = config.get('API_ROOT');
-        const headers = getRequestHeaders();
-
-        return axios.post(`${baseUrl}/message`, JSON.stringify({
-            MessageId: messageId,
-            UserId: userId,
-            Body: body,
-        }), {
-                headers: headers
-            }).then(response => {
-                return response.data;
-            }).catch(error => {
-                return error;
-            });
-    }
+    return axios
+      .post(
+        `${baseUrl}/message`,
+        JSON.stringify({
+          MessageId: messageId,
+          UserId: userId,
+          Body: body,
+        }),
+        {
+          headers,
+        }
+      )
+      .then(response => response.data)
+      .catch(error => error);
+  };
 }
 
 export default new MessageService();

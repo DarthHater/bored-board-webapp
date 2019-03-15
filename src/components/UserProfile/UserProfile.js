@@ -1,64 +1,81 @@
-import React, {Component} from 'react';
-import { getUsername } from '../../auth/authentication';
-import UserService from '../../services/UserService';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import UserService from '../../services/UserService';
 
 class UserProfile extends Component {
+  constructor(props) {
+    super(props);
 
-    constructor(props) {
-        super(props);
+    this.state = {
+      loading: true,
+    };
+  }
 
-        this.state = {
-            loading: true
-        };
+  componentWillMount() {
+    const { match } = this.props;
+
+    UserService.getUserInfo(match.params.userid).then(res => {
+      this.setState({
+        loading: false,
+        userInfo: res,
+      });
+    });
+  }
+
+  render() {
+    const { loading, userInfo } = this.state;
+
+    if (loading) {
+      return <div>Loading...</div>;
     }
 
-    componentWillMount() {
-        const userId = this.props.match.params.userid;
+    const { bio, match } = this.props;
 
-        UserService.getUserInfo(userId).then(res => {
-            this.setState({
-                loading: false,
-                userInfo: res
-            });
-        });
-    }
-
-    render() {
-        if (this.state.loading) {
-            return <div>Loading...</div>;
-        }
-
-        const { userInfo } = this.state;
-
-        return (
-            <div className='container'>
-                <header>
-                    <h1>
-                        {userInfo.username}
-                    </h1>
-                </header>
-                <div>
-                    {this.props.bio}
-                </div>
-                <div>
-                    Total Threads: {userInfo.totalThreads}
-                </div>
-                <div>
-                    Total Posts: {userInfo.totalPosts}
-                </div>
-                 <div>
-                    Last Posted: {new Date(userInfo.lastPosted).toLocaleString()}
-                </div>
-                <div>
-                    <Link to={{ pathname: `/messages`, state: {
-                        toUserId: this.props.match.params.userid,
-                        toUserName: userInfo.username
-                    }}}>Message {userInfo.username}</Link>
-                </div>
-            </div>
-        );
-    }
+    return (
+      <div className="container">
+        <header>
+          <h1>{userInfo.username}</h1>
+        </header>
+        <div>{bio}</div>
+        <div>
+          Total Threads:
+          {userInfo.totalThreads}
+        </div>
+        <div>
+          Total Posts:
+          {userInfo.totalPosts}
+        </div>
+        <div>
+          Last Posted:
+          {new Date(userInfo.lastPosted).toLocaleString()}
+        </div>
+        <div>
+          <Link
+            to={{
+              pathname: '/messages',
+              state: {
+                toUserId: match.params.userid,
+                toUserName: userInfo.username,
+              },
+            }}
+          >
+            Message
+            {userInfo.username}
+          </Link>
+        </div>
+      </div>
+    );
+  }
 }
+
+UserProfile.propTypes = {
+  bio: PropTypes.string,
+  match: PropTypes.object.isRequired,
+};
+
+UserProfile.defaultProps = {
+  bio: '',
+};
 
 export default UserProfile;

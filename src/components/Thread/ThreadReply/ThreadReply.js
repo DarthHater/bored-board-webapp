@@ -1,93 +1,97 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import orange from '@material-ui/core/colors/orange';
-import blue from '@material-ui/core/colors/blue';
 import { connect } from 'react-redux';
-import { threadActions } from '../../../actions/index';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-
-const styles = {
-    floatingLabelStyle: {
-        color: orange[500],
-    },
-    floatingLabelFocusStyle: {
-        color: blue[500],
-    },
-};
+import PropTypes from 'prop-types';
+import { threadActions } from '../../../actions/index';
 
 class ThreadReply extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      stateValue: props.value,
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: props.value,
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+  componentDidUpdate(prevProps) {
+    const { value } = this.props;
+    const { stateValue } = this.state;
+    if (value !== prevProps.value) {
+      if (stateValue === '') {
+        this.setState({
+          stateValue: value,
+        });
+      } else {
+        this.setState({
+          stateValue: `${stateValue}\n\n${value}`,
+        });
+      }
     }
+  }
 
-    handleChange(event) {
-        this.setState({ value: event.target.value });
-    }
+  handleChange(event) {
+    this.setState({ stateValue: event.target.value });
+  }
 
-    handleSubmit(event) {
-        this.props.dispatch(threadActions.addPost(this.props.threadId, this.props.userId, this.state.value));
+  handleSubmit(event) {
+    const { dispatch, threadId, userId } = this.props;
+    const { stateValue } = this.state;
+    dispatch(threadActions.addPost(threadId, userId, stateValue));
 
-        this.setState({ value: '' });
+    this.setState({ stateValue: '' });
 
-        event.preventDefault();
-    }
+    event.preventDefault();
+  }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.value !== prevProps.value) {
-            if (this.state.value == "") {
-                this.setState({
-                    value: this.props.value
-                });
-            } else {
-                this.setState({
-                    value: `${this.state.value}\n\n${this.props.value}`
-                });
-            }
-        }
-    }
-
-    render() {
-        return (
-            <ValidatorForm
-                ref="form"
-                onSubmit={this.handleSubmit}
-                onError={errors => console.log(errors)}
-            >
-                <TextValidator
-                    label="Type something"
-                    onChange={this.handleChange}
-                    name="multiline-static"
-                    multiline
-                    rows="5"
-                    defaultValue=""
-                    margin="normal"
-                    value={this.state.value}
-                    validators={['required']}
-                    errorMessages={['this field is required']}
-                    style={{ width: "95%" }}
-                />
-                <br></br>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                >say it!</Button>
-            </ValidatorForm>
-        );
-    }
+  render() {
+    const { stateValue } = this.state;
+    return (
+      <ValidatorForm
+        // eslint-disable-next-line react/no-string-refs
+        ref="form"
+        onSubmit={this.handleSubmit}
+      >
+        <TextValidator
+          label="Type something"
+          onChange={this.handleChange}
+          name="multiline-static"
+          multiline
+          rows="5"
+          defaultValue=""
+          margin="normal"
+          value={stateValue}
+          validators={['required']}
+          errorMessages={['this field is required']}
+          style={{ width: '95%' }}
+        />
+        <br />
+        <Button variant="contained" color="primary" type="submit">
+          say it!
+        </Button>
+      </ValidatorForm>
+    );
+  }
 }
 
-function mapStateToProps(state, ownProps) {
-    return {
-        post: state.post
-    };
+ThreadReply.propTypes = {
+  value: PropTypes.string,
+  dispatch: PropTypes.func.isRequired,
+  threadId: PropTypes.string,
+  userId: PropTypes.string.isRequired,
+};
+
+ThreadReply.defaultProps = {
+  value: '',
+  threadId: '',
+};
+
+function mapStateToProps(state) {
+  return {
+    post: state.post,
+  };
 }
 
 export default connect(mapStateToProps)(ThreadReply);
